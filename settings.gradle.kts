@@ -16,6 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // TEMPORARY: glitch-shader is not on Maven Central yet. Remove once it is published.
+        mavenLocal {
+            content { includeGroup("io.github.makzimi") }
+        }
     }
 }
 

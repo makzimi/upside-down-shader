@@ -39,7 +39,7 @@ fun UpsideDownShaderSampleApp() {
         currentScreen = ShaderScreen.MainMenu
     }
 
-    when (currentScreen) {
+    when (val screen = currentScreen) {
         ShaderScreen.MainMenu -> {
             MainMenuScreen(
                 onNavigate = { screen -> currentScreen = screen },
@@ -47,8 +47,11 @@ fun UpsideDownShaderSampleApp() {
             )
         }
 
-        ShaderScreen.UpsideDownScreen -> {
+        is ShaderScreen.UpsideDownScreen -> {
             UpsideDownScreen(
+                title = screen.title,
+                withGlitch = screen.withGlitch,
+                withVines = screen.withVines,
                 onBackPressed = { currentScreen = ShaderScreen.MainMenu },
                 modifier = Modifier.fillMaxSize()
             )

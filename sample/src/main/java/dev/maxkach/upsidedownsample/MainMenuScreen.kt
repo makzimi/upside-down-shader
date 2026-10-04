@@ -19,7 +19,11 @@ import androidx.compose.ui.unit.dp
 
 sealed class ShaderScreen {
     data object MainMenu : ShaderScreen()
-    data object UpsideDownScreen : ShaderScreen()
+    data class UpsideDownScreen(
+        val title: String,
+        val withGlitch: Boolean,
+        val withVines: Boolean,
+    ) : ShaderScreen()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,20 +56,40 @@ fun MainMenuScreen(
             ) {
                 SampleButton(
                     title = "UpsideDown Example",
-                    onClick = { onNavigate(ShaderScreen.UpsideDownScreen) }
+                    onClick = {
+                        onNavigate(
+                            ShaderScreen.UpsideDownScreen(
+                                title = "Upside-Down shader",
+                                withGlitch = false,
+                                withVines = false,
+                            )
+                        )
+                    }
                 )
 
                 SampleButton(
                     title = "Glitch +  UpsideDown Example",
                     onClick = {
-                        // TODO add toast here like will be added soon
+                        onNavigate(
+                            ShaderScreen.UpsideDownScreen(
+                                title = "Glitch + Upside-Down",
+                                withGlitch = true,
+                                withVines = false,
+                            )
+                        )
                     }
                 )
 
                 SampleButton(
                     title = "Glitch +  UpsideDown + Vines Example",
                     onClick = {
-                        // TODO add toast here like will be added soon
+                        onNavigate(
+                            ShaderScreen.UpsideDownScreen(
+                                title = "Glitch + Upside-Down + Vines",
+                                withGlitch = true,
+                                withVines = true,
+                            )
+                        )
                     }
                 )
             }
