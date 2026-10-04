@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.maxkach.upsidedownsample"
-        minSdk = 33
+        minSdk = 34
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":upsidedown-shader"))
+    implementation(libs.glitch.shader)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

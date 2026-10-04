@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.maxkach.shaders.glitch.glitchShader
 import dev.maxkach.shaders.upsidedown.shaderUpsideDown
 import dev.maxkach.upsidedownsample.common.ButtonState
 import dev.maxkach.upsidedownsample.common.UpsideDownButton
@@ -21,6 +22,9 @@ import dev.maxkach.upsidedownsample.sampleproduct.ProductCardStateCreator
 
 @Composable
 fun UpsideDownScreen(
+    title: String,
+    withGlitch: Boolean,
+    withVines: Boolean,
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -31,15 +35,27 @@ fun UpsideDownScreen(
         )
     }
     var buttonState by remember { mutableStateOf(ButtonState.NORMAL_WORLD) }
+    val transition = rememberUpsideDownTransition(
+        isActive = buttonState == ButtonState.UPSIDE_DOWN,
+        withGlitch = withGlitch,
+    )
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .shaderUpsideDown(isEnabled = buttonState == ButtonState.UPSIDE_DOWN)
+            .glitchShader(
+                intensity = { transition.glitchIntensity },
+                colorBarsEnabled = true,
+                isEnabled = transition.isGlitching,
+            )
+            .shaderUpsideDown(
+                isEnabled = transition.isUpsideDown,
+                vines = withVines,
+            )
     ) {
         ProductCard(
             state = state,
-            stepTitle = "Upside-Down shader",
+            stepTitle = title,
             onColorClicked = { newColor ->
                 selectedImage = newColor
             },

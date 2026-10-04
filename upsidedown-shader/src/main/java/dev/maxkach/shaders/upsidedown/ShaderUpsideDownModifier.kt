@@ -1,15 +1,9 @@
-
 package dev.maxkach.shaders.upsidedown
 
 import android.graphics.RuntimeShader
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RenderEffect
@@ -21,30 +15,37 @@ import androidx.compose.ui.graphics.graphicsLayer
 fun Modifier.shaderUpsideDown(
     isEnabled: Boolean = true,
     darknessIntensity: Float = 0.4f,
+    particles: Boolean = true,
+    vines: Boolean = true,
 ): Modifier {
     if (!isEnabled) {
         return this
     }
 
-    val shader = remember {
-        RuntimeShader(UPSIDE_DOWN_SHADER)
+    // Snow and vines wrap the grade, so they are drawn on top and not color-graded.
+    return this
+        .clipToBounds()
+        .upsideDownSnow(isEnabled = particles)
+        .upsideDownVines(isEnabled = vines)
+        .upsideDownGrade(darknessIntensity = darknessIntensity)
+}
+
+@Stable
+@Composable
+fun Modifier.upsideDownGrade(
+    isEnabled: Boolean = true,
+    darknessIntensity: Float = 0.4f,
+): Modifier {
+    if (!isEnabled) {
+        return this
     }
 
-    var time by remember { mutableLongStateOf(0L) }
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            withFrameMillis { frameTime ->
-                time = frameTime
-            }
-        }
-    }
+    val shader = remember { RuntimeShader(UPSIDE_DOWN_SHADER) }
 
     return this
         .clipToBounds()
         .graphicsLayer {
             shader.setFloatUniform("imageSize", size.width, size.height)
-            shader.setFloatUniform("time", time / 1000f) // Convert to seconds
             shader.setFloatUniform("darknessIntensity", darknessIntensity)
 
             renderEffect = shader.asEffect("image")
