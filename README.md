@@ -5,7 +5,7 @@
 
 An Android Compose library that applies a mysterious "Upside-Down" visual effect with a colour grade, drifting snow and growing vines.
 
-<img width="300px" src="https://github.com/user-attachments/assets/98d47bfa-98b3-43a1-bcc5-ec9c4799cc17">
+<img width="300px" src="https://github.com/user-attachments/assets/e7f6033b-be22-40da-bc05-0305f1612b82">
 
 ## Project Structure
 
